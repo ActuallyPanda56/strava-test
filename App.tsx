@@ -7,7 +7,6 @@ import LoginView from "./src/views/LoginView";
 import Activities from "./src/views/(activities)/Activities";
 import MonthlyActivities from "./src/views/(activities)/MontlyActivities";
 import Settings from "./src/views/Settings";
-import { useStravaAuth } from "./src/views/hooks/useStravaAuth";
 
 const Stack = createNativeStackNavigator();
 
