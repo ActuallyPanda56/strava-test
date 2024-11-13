@@ -6,7 +6,7 @@ import { refreshStravaToken } from "./api/auth";
  * @param url - The URL to fetch.
  * @param options - Optional configuration for the fetch request.
  * @returns A promise that resolves to the response data.
- * @throws Will throw an error if the token refresh fails or if the fetch request is not successful.
+ * @throws Will throw a standardized error object if the token refresh fails or if the fetch request is not successful.
  */
 export const customFetch = async (
   url: string,
@@ -26,17 +26,34 @@ export const customFetch = async (
       },
     });
 
-    const data = await response.json();
-
-    if (data.errors) {
-      throw new Error(`API error: ${JSON.stringify(data.errors, null, 2)}`);
+    if (!response.ok) {
+      // Standardized error format for non-ok responses
+      const errorResponse = await response.json();
+      throw {
+        status: response.status,
+        message:
+          errorResponse?.message ||
+          "An error occurred during the fetch request",
+        details: errorResponse,
+      };
     }
 
+    const data = await response.json();
     return data;
   } catch (error) {
-    // Log the error for debugging purposes
+    // Handle and standardize errors
+    if (error instanceof Error) {
+      throw {
+        status: 500, // Default to internal server error
+        message: error.message,
+        details: error,
+      };
+    }
     console.error("Error in customFetch:", error);
-    // Optionally, you can rethrow the error or handle it accordingly
-    throw error; // rethrowing the error ensures the caller can handle it
+    throw {
+      status: 500,
+      message: "Failed to fetch data",
+      details: error,
+    };
   }
 };

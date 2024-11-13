@@ -4,10 +4,10 @@ import { customFetch } from "../fetch";
 /**
  * Fetches activities from the Strava API.
  *
- * @param token - The access token for authentication.
  * @param page - The page number for pagination. Defaults to 1.
  * @param perPage - The number of items per page. Defaults to 30.
  * @returns A promise that resolves to the JSON response from the Strava API.
+ * @throws Will throw a standardized error object if the fetch fails.
  */
 export const fetchActivities = async (
   page: number = 1,
@@ -15,9 +15,26 @@ export const fetchActivities = async (
 ) => {
   const url = `https://www.strava.com/api/v3/athlete/activities?page=${page}&per_page=${perPage}`;
 
-  const data = await customFetch(url);
-
-  return data;
+  try {
+    // Call the custom fetch function which handles the authorization token
+    const data = await customFetch(url);
+    return data;
+  } catch (error) {
+    // Handle and standardize errors thrown by customFetch
+    if (error instanceof Error) {
+      throw {
+        status: 500,
+        message: error.message,
+        details: error,
+      };
+    } else {
+      throw {
+        status: 500,
+        message: "An unexpected error occurred while fetching activities.",
+        details: error,
+      };
+    }
+  }
 };
 
 /**

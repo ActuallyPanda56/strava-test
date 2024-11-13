@@ -143,15 +143,17 @@ const styles = StyleSheet.create({
     color: "#333",
   },
   activityCard: {
-    backgroundColor: "white",
-    padding: 15,
+    backgroundColor: "#fff",
+    padding: 20,
     marginVertical: 10,
-    borderRadius: 8,
+    borderRadius: 12,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 3, // for Android shadow
+    shadowRadius: 6,
+    elevation: 3,
+    borderLeftWidth: 5,
+    borderColor: "#FF7F32", // Accent color similar to second style
   },
   activityDate: {
     fontSize: 18,
@@ -179,13 +181,14 @@ const styles = StyleSheet.create({
   modalContent: {
     backgroundColor: "white",
     padding: 20,
-    borderRadius: 8,
+    borderRadius: 12,
     width: "80%",
     maxHeight: "80%",
   },
   modalTitle: {
     fontSize: 22,
-    fontWeight: "bold",
+    fontWeight: "600",
+    color: "#333",
     marginBottom: 15,
     textAlign: "center",
   },
@@ -194,11 +197,11 @@ const styles = StyleSheet.create({
   },
   activityName: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: "600",
     color: "#333",
   },
   closeButton: {
-    backgroundColor: "#ff4b82",
+    backgroundColor: "#FF7F32", // Accent color
     padding: 10,
     borderRadius: 8,
     alignItems: "center",

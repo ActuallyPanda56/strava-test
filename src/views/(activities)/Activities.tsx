@@ -43,32 +43,10 @@ export default function Activities() {
     }
   );
 
-  // Check if the error is related to missing permissions and show the modal
-  useEffect(() => {
-    if (isError && error instanceof Error) {
-      const errorMessage = error.message;
-      // Log the error message to check the exact structure
-      console.log("API Error:", errorMessage);
-
-      if (
-        errorMessage.includes("activity:read_permission") &&
-        errorMessage.includes("missing")
-      ) {
-        setShowModal(true);
-      }
-    }
-  }, [isError, error]);
-
   const handleLoadMore = () => {
     if (hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
     }
-  };
-
-  const handleLoginAgain = () => {
-    // Logic to log the user out and redirect to login page
-    setShowModal(false); // Close the modal
-    // You can implement additional logic to handle the re-login (e.g., resetting tokens)
   };
 
   if (isLoading) {
@@ -83,9 +61,7 @@ export default function Activities() {
   if (isError) {
     return (
       <Activitieslayout>
-        <Text style={styles.errorText}>
-          Error: {error instanceof Error ? error.message : "Unknown error"}
-        </Text>
+        <Text style={styles.errorText}>Unable to retrieve data</Text>
       </Activitieslayout>
     );
   }
@@ -136,23 +112,6 @@ export default function Activities() {
         }
         contentContainerStyle={styles.listContentContainer} // Ensure the content has enough padding and space
       />
-
-      {/* Modal to prompt user to log in again */}
-      <Modal
-        visible={showModal}
-        animationType="slide"
-        transparent={true}
-        onRequestClose={() => setShowModal(false)}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalText}>
-              Your session has expired. Please log in again to continue.
-            </Text>
-            <Button title="Log in Again" onPress={handleLoginAgain} />
-          </View>
-        </View>
-      </Modal>
     </Activitieslayout>
   );
 }
@@ -208,23 +167,5 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: "#555",
     lineHeight: 22,
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  modalContent: {
-    width: 300,
-    padding: 20,
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    alignItems: "center",
-  },
-  modalText: {
-    fontSize: 18,
-    marginBottom: 20,
-    textAlign: "center",
   },
 });
